@@ -22,3 +22,18 @@ function formatCoordinate ([latitude, longitude, locationName]: readonly [number
 function concatenateArrays <T> (...rest: T[][]) : T[] {
    return rest.flat()
 }
+
+interface Course {
+   title:string
+   students: number
+   isPublished: boolean
+}
+
+function getPopularCourses (courses: Course[], minStudents: number) : Course[] {
+   const popularCourses = courses.filter((course) => course.isPublished && course.students >= minStudents)
+
+   return popularCourses
+}
+
+
+

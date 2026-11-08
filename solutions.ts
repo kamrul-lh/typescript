@@ -18,3 +18,7 @@ function processInput (value: string | number | boolean) : string | number  {
 function formatCoordinate ([latitude, longitude, locationName]: readonly [number, number, string]) : string {
    return `Location: ${locationName} (${latitude}, ${longitude})`
 }
+
+function concatenateArrays <T> (...rest: T[][]) : T[] {
+   return rest.flat()
+}

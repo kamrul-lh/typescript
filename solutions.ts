@@ -14,3 +14,7 @@ function processInput (value: string | number | boolean) : string | number  {
 
    return value ? "Active" : "Inactive"
 }
+
+function formatCoordinate ([latitude, longitude, locationName]: readonly [number, number, string]) : string {
+   return `Location: ${locationName} (${latitude}, ${longitude})`
+}

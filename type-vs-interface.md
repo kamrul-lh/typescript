@@ -59,8 +59,6 @@ interface ITeacher extends IPerson {
 }
 ```
 
-## Examples
-
 ### Object contract
 
 ```ts
@@ -101,7 +99,7 @@ type Email = string;
 type Greet = (name: string) => string;
 
 ```
-                                                  |
+
 ## When should you choose one over the other?
 
 - Choose an interface when a contract might need to be extended or merged.

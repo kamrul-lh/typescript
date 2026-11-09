@@ -7,6 +7,10 @@ Typescript provides type aliases & interface which describes data shape. An inte
 
 Interface defined in object shape. An interface can extend other interfaces to implement their data shape. An interface can be reopened by declaration merging, but Type aliases can not be reopened by declaration merging.
 
+To implement a core interface into another, you need to use `extend,` while a type alias needs to use intersections (&)
+
+An interface can extend known an object but can not extend union types.
+
 ## Examples
 
 ```ts
@@ -45,10 +49,6 @@ interface ITeacher extends IPerson {
     experience?: number
 }
 ```
-
-To implement a core interface into another, you need to use `extend,` while a type alias needs to use intersections (&)
-
-An interface can extend known an object but can not extend union types.
 
 ## Examples
 
@@ -90,6 +90,7 @@ const dhaka: Coordinates = [23.8103, 90.4125];
 ```ts
 type Email = string;
 type Greet = (name: string) => string;
+
 ```
 
 Pick an interface for public object contracts that might need to be extended or merged. Pick an alias type when you are creating unions, intersections, tuples, or other complex type combinations

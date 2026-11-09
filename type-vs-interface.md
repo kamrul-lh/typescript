@@ -11,6 +11,15 @@ To implement a core interface into another, you need to use `extend,` while a ty
 
 An interface can extend known an object but can not extend union types.
 
+## Interface vs Type alias comparison at a glance
+
+| Feature              | Type alias                                                         | Interface                                                                      |
+| -------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
+| Declaration          | By `type`                                                          | By `interface`                                                                 |
+| Declaration merging  | No, duplicate naming throws an error                               | Yes, allowed and merged                                                        |
+| Support              | Objects, unions, tuples, string literals, intersections, primitives | Object structure; does not support tuples, string literals, or unions directly |
+| Extension            | Via the intersection (`&`) operator                                | Via the `extends` keyword    
+
 ## Examples
 
 ```ts
@@ -92,7 +101,53 @@ type Email = string;
 type Greet = (name: string) => string;
 
 ```
+                                                  |
+## When should you choose one over the other?
 
-Pick an interface for public object contracts that might need to be extended or merged. Pick an alias type when you are creating unions, intersections, tuples, or other complex type combinations
+- Choose an interface when a contract might need to be extended or merged.
+
+```ts
+interface User {
+    id: number
+    name: string
+}
+
+interface User {
+    email: string
+}
+```
+
+- Choose an interface when a class needs to strictly follow a contract using `implements`.
+
+```ts
+interface Animal {
+    speak(): string
+}
+
+class Dog implements Animal {
+    speak() {
+        return "woof"
+    }
+}
+```
+
+- We need to choose a type alias when we are creating unions, intersections, tuples, or other complex type combinations.
+
+```ts
+type Status = "active" | "pending"
+type Admin = User & { permissions: string[] }
+type Coordinates = [number, number]
+```
+
+- We need to pick a type alias for function types, primitive aliases, and string literals that need to be used and implemented.
+
+```ts
+type Email = string
+type Greet = (name: string) => string
+type Role = "user" | "admin"
+```
 
 
+## Conclusion
+
+My opinion is to try to use interfaces mostly. The TypeScript documentation also prefers interfaces. Use type aliases where unions, string literals, or tuples are needed to bind the program to strict keys, a fixed number of keys, or required string literals.

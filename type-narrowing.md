@@ -111,4 +111,6 @@ function getTotal(price: number, coupon: string | undefined) {
 
 Comparing with `===` narrows the same way. The undefined case is already handled in the first check, so after that block only string is left and we can compare it against the literal `"SAVE10"`. The same idea works with `!==` or when checking a value against a fixed value like `role === "admin"`.
 
+# Conclusion
+
 Most of the time in real life you’ll be using `typeof` for strings and numbers, `in` for object shapes from an API and `instanceof` not as much but it is the only way when working with classes.

@@ -47,21 +47,21 @@ For now, we have only a cat and a dog as animals. TypeScript cannot automaticall
 ```ts
 class Dog {
     bark() {
-        console.log("woof")
+        return "woof"
     }
 }
 
 class Cat {
     meow() {
-        console.log("meow")
+        return "meow"
     }
 }
 
-function speak(animal: Dog | Cat) : string {
+function speak(animal: Dog | Cat): string {
     if (animal instanceof Dog) {
-        animal.bark()
+        return animal.bark()
     } else {
-        animal.meow()
+        return animal.meow()
     }
 }
 ```

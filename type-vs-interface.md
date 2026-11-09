@@ -1,24 +1,16 @@
-# The core differences between type aliases and interface in TypeScript : When should you choose one over the other?
+# Type aliases vs interfaces in TypeScript
 
 ## Introduction
-Typescript provides type aliases & interface which describes data shape. An interface is an object contract. An interface can extend & merge. Type aliases can also describe object shape too but it can also describe unions, intersections, primitives, tuples and function signatures
 
-## Description
+`type` and `interface` both describe object shapes, so people mix them up. I did too. The difference only matters when you extend, merge, or describe something that is not an object.
 
-Interface defined in object shape. An interface can extend other interfaces to implement their data shape. An interface can be reopened by declaration merging, but Type aliases can not be reopened by declaration merging.
+## How they differ
 
-To implement a core interface into another, you need to use `extend,` while a type alias needs to use intersections (&)
+An interface is a contract for an object. It can extend another interface, and it can be reopened later with the same name — the compiler merges both declarations.
 
-An interface can extend known an object but can not extend union types.
+A type alias is wider. It can describe an object, but also a union, an intersection, a tuple, a primitive, or a function signature. It cannot be reopened: a second `type` with the same name is an error.
 
-## Interface vs Type alias comparison at a glance
-
-| Feature              | Type alias                                                         | Interface                                                                      |
-| -------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
-| Declaration          | By `type`                                                          | By `interface`                                                                 |
-| Declaration merging  | No, duplicate naming throws an error                               | Yes, allowed and merged                                                        |
-| Support              | Objects, unions, tuples, string literals, intersections, primitives | Object structure; does not support tuples, string literals, or unions directly |
-| Extension            | Via the intersection (`&`) operator                                | Via the `extends` keyword    
+Interfaces extend with `extends`, type aliases with `&`. An interface can extend an object type but not a union.
 
 ## Examples
 
@@ -102,7 +94,7 @@ type Greet = (name: string) => string;
 
 ## When should you choose one over the other?
 
-- Choose an interface when a contract might need to be extended or merged.
+I use an interface when the shape is an object that other code will extend or merge. In this repo, `Course` is an interface for that reason. Merging helps when a library adds fields to an existing type, but it cuts both ways: two accidental `interface User` blocks merge silently instead of failing.
 
 ```ts
 interface User {
@@ -115,7 +107,7 @@ interface User {
 }
 ```
 
-- Choose an interface when a class needs to strictly follow a contract using `implements`.
+`implements` is the other reason. If `class Dog implements Animal` is missing `speak()`, the compiler stops me at the class.
 
 ```ts
 interface Animal {
@@ -129,7 +121,7 @@ class Dog implements Animal {
 }
 ```
 
-- We need to choose a type alias when we are creating unions, intersections, tuples, or other complex type combinations.
+For anything that is not a plain object I use `type`. Unions, intersections, tuples, primitives, and function signatures have no interface version.
 
 ```ts
 type Status = "active" | "pending"
@@ -137,15 +129,12 @@ type Admin = User & { permissions: string[] }
 type Coordinates = [number, number]
 ```
 
-- We need to pick a type alias for function types, primitive aliases, and string literals that need to be used and implemented.
-
 ```ts
 type Email = string
 type Greet = (name: string) => string
 type Role = "user" | "admin"
 ```
 
-
 ## Conclusion
 
-My opinion is to try to use interfaces mostly. The TypeScript documentation also prefers interfaces. Use type aliases where unions, string literals, or tuples are needed to bind the program to strict keys, a fixed number of keys, or required string literals.
+Most of my code uses interfaces, because most of what I describe is an object. I reach for `type` for unions, tuples, and function signatures, and when I want a duplicate name to fail.
